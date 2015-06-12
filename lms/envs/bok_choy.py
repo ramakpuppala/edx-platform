@@ -48,6 +48,20 @@ update_module_store_settings(
 )
 
 ############################ STATIC FILES #############################
+
+# Enable debug so that static assets are served by Django
+DEBUG = True
+
+# Serve static files at /static directly from the staticfiles directory under test root
+STATIC_URL = "/static/"
+STATICFILES_FINDERS = (
+    'staticfiles.finders.FileSystemFinder',
+)
+STATICFILES_DIRS = (
+    (TEST_ROOT / "staticfiles").abspath(),
+)
+
+# Configure file uploads
 DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
 MEDIA_ROOT = TEST_ROOT / "uploads"
 MEDIA_URL = "/static/uploads/"
@@ -73,9 +87,6 @@ OPEN_ENDED_GRADING_INTERFACE['url'] = 'http://localhost:8041/'
 # Configure the LMS to use our stub EdxNotes implementation
 EDXNOTES_PUBLIC_API = 'http://localhost:8042/api/v1'
 EDXNOTES_INTERNAL_API = 'http://localhost:8042/api/v1'
-
-# Enable django-pipeline and staticfiles
-STATIC_ROOT = (TEST_ROOT / "staticfiles").abspath()
 
 # Silence noisy logs
 import logging
@@ -105,9 +116,6 @@ FEATURES['ENABLE_TEAMS'] = True
 
 # Enable custom content licensing
 FEATURES['LICENSING'] = True
-
-# Unfortunately, we need to use debug mode to serve staticfiles
-DEBUG = True
 
 ########################### Entrance Exams #################################
 FEATURES['MILESTONES_APP'] = True

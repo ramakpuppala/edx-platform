@@ -94,7 +94,7 @@ class BokChoyTestSuite(TestSuite):
             # Reset the database
 
             # Collect static assets
-            sh("paver update_assets --settings=bok_choy")
+            sh("paver update_assets --settings=bok_choy_static")
 
         # Clear any test data already in Mongo or MySQLand invalidate
         # the cache
