@@ -2642,3 +2642,21 @@ def mark_student_can_skip_entrance_exam(request, course_id):  # pylint: disable=
         'message': message,
     }
     return JsonResponse(response_payload)
+
+
+@ensure_csrf_cookie
+@cache_control(no_cache=True, no_store=True, must_revalidate=True)
+@require_level('staff')
+@require_POST
+def start_certificate_generation(request, course_id=None):
+    """
+    Start generating certificates for all students enrolled in given course.
+    """
+    course_key = CourseKey.from_string(course_id)
+    instructor_task.api.generate_certificates_for_all_students(request, course_key)
+    message = _('Certificate generation task for all students of this course has been started. '
+                'You can view the status of the generation task in the "Pending Instructor Tasks" section.')
+    response_payload = {
+        'message': message,
+    }
+    return JsonResponse(response_payload)
