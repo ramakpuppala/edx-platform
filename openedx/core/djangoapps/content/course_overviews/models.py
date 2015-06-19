@@ -5,7 +5,7 @@ Declaration of CourseOverview model
 import json
 
 import django.db.models
-from django.db.models.fields import BooleanField, DateTimeField, DecimalField, TextField
+from django.db.models.fields import BooleanField, DateTimeField, DecimalField, TextField, FloatField
 from django.utils.translation import ugettext
 
 from lms.djangoapps.certificates.api import get_active_web_certificate
@@ -54,6 +54,7 @@ class CourseOverview(django.db.models.Model):
     lowest_passing_grade = DecimalField(max_digits=5, decimal_places=2)
 
     # Access parameters
+    days_early_for_beta = FloatField(null=True)
     mobile_available = BooleanField()
     visible_to_staff_only = BooleanField()
     _pre_requisite_courses_json = TextField()  # JSON representation of list of CourseKey strings
@@ -95,6 +96,7 @@ class CourseOverview(django.db.models.Model):
             lowest_passing_grade=course.lowest_passing_grade,
             end_of_course_survey_url=course.end_of_course_survey_url,
 
+            days_early_for_beta=course.days_early_for_beta,
             mobile_available=course.mobile_available,
             visible_to_staff_only=course.visible_to_staff_only,
             _pre_requisite_courses_json=json.dumps(course.pre_requisite_courses)
