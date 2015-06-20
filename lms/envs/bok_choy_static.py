@@ -30,3 +30,6 @@ from .aws import *  # pylint: disable=wildcard-import, unused-wildcard-import
 
 # Switch off debug so that the pipeline will generate optimized files
 DEBUG = False
+
+# Store the static files under test root so that they don't overwrite existing static assets
+STATIC_ROOT = (TEST_ROOT / "staticfiles").abspath()
