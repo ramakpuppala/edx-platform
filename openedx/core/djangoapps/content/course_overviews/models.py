@@ -8,8 +8,6 @@ import django.db.models
 from django.db.models.fields import BooleanField, DateTimeField, DecimalField, TextField, FloatField
 from django.utils.translation import ugettext
 
-from lms.djangoapps.certificates.api import get_active_web_certificate
-from lms.djangoapps.courseware.courses import course_image_url
 from util.date_utils import strftime_localized
 from xmodule import course_metadata_utils
 from xmodule.modulestore.django import modulestore
@@ -73,6 +71,9 @@ class CourseOverview(django.db.models.Model):
         Returns:
             CourseOverview: overview extracted from the given course
         """
+        from lms.djangoapps.courseware.courses import course_image_url
+        from lms.djangoapps.certificates.api import get_active_web_certificate
+
         return CourseOverview(
             id=course.id,
             _location=course.location,
@@ -118,6 +119,7 @@ class CourseOverview(django.db.models.Model):
         Returns:
             CourseOverview: overview of the requested course
         """
+        # TODO me: return ErrorDescriptor?
         course_overview = None
         try:
             course_overview = CourseOverview.objects.get(id=course_id)

@@ -158,23 +158,28 @@ def get_course_about_section(course, section_key):
     This returns the snippet of html to be rendered on the course about page,
     given the key for the section.
 
-    Valid keys:
-    - overview
-    - title
-    - university
-    - number
-    - short_description
-    - description
-    - key_dates (includes start, end, exams, etc)
-    - video
-    - course_staff_short
-    - course_staff_extended
-    - requirements
-    - syllabus
-    - textbook
-    - faq
-    - more_info
-    - ocw_links
+    Arguments:
+        course (CourseDescriptor): a course.
+        section_key (str): key of section to be returned. Valid values:
+            - overview
+            - title
+            - university
+            - number
+            - short_description
+            - description
+            - key_dates (includes start, end, exams, etc)
+            - video
+            - course_staff_short
+            - course_staff_extended
+            - requirements
+            - syllabus
+            - textbook
+            - faq
+            - more_info
+            - ocw_links
+            - effort
+            - end_date
+            - prerequisites
     """
 
     # Many of these are stored as html files instead of some semantic
@@ -182,16 +187,30 @@ def get_course_about_section(course, section_key):
     # good format for defining so many snippets of text/html.
 
     # TODO: Remove number, instructors from this list
-    if section_key in ['short_description', 'description', 'key_dates', 'video',
-                       'course_staff_short', 'course_staff_extended',
-                       'requirements', 'syllabus', 'textbook', 'faq', 'more_info',
-                       'number', 'instructors', 'overview',
-                       'effort', 'end_date', 'prerequisites', 'ocw_links']:
+    renderable_section_keys = [
+        'short_description',
+        'description',
+        'key_dates',
+        'video',
+        'course_staff_short',
+        'course_staff_extended',
+        'requirements',
+        'syllabus',
+        'textbook',
+        'faq',
+        'more_info',
+        'number',
+        'instructors',
+        'overview',
+        'effort',
+        'end_date',
+        'prerequisites',
+        'ocw_links',
+    ]
 
+    if section_key in renderable_section_keys:
         try:
-
             request = get_request_for_thread()
-
             loc = course.location.replace(category='about', name=section_key)
 
             # Use an empty cache
@@ -217,7 +236,8 @@ def get_course_about_section(course, section_key):
                     log.exception(
                         u"Error rendering course={course}, section_key={section_key}".format(
                             course=course, section_key=section_key
-                        ))
+                        )
+                    )
             return html
 
         except ItemNotFoundError:
@@ -231,8 +251,8 @@ def get_course_about_section(course, section_key):
         return course.display_org_with_default
     elif section_key == "number":
         return course.display_number_with_default
-
-    raise KeyError("Invalid about key " + str(section_key))
+    else:
+        raise KeyError("Invalid about key " + str(section_key))
 
 
 def get_course_info_section_module(request, course, section_key):
