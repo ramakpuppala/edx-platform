@@ -34,7 +34,7 @@ DEBUG = False
 # Store the static files under test root so that they don't overwrite existing static assets
 STATIC_ROOT = (TEST_ROOT / "staticfiles").abspath()
 
-# Points to a RequireJS build configuration that disables Uglify for two reasons
+# Disables uglify when tests are running (used by build.js).
 # 1. Uglify is by far the slowest part of the build process
 # 2. Having full source code makes debugging tests easier for developers
-REQUIRE_BUILD_PROFILE = "build-debug.js"
+os.environ['REQUIRE_BUILD_PROFILE_OPTIMIZE'] = 'none'
