@@ -70,6 +70,10 @@
                 if (this.hasPreviousPage()) {
                     this.setPage(this.currentPage - 1);
                 }
+            },
+
+            currentOneIndexPage: function () {
+                return this.currentPage;
             }
         });
         return TopicCollection;
