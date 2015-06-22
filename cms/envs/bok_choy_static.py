@@ -1,5 +1,13 @@
 """
-Settings for building static assets for Bok Choy tests.
+Settings for building prod-like optimized static assets for Bok Choy tests.
+
+Note that Bok Choy uses two different settings files:
+1. bok_choy_static is used when invoking collectstatic
+2. bok_choy is used when running CMS and LMS
+
+It isn't possible to have a single settings file, because DEBUG must be set
+to False in order to generate optimized static assets, but it must be set
+to True in order to serve assets from the local file system.
 """
 
 import os

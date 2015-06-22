@@ -85,15 +85,14 @@ class BokChoyTestSuite(TestSuite):
 
     def prepare_bokchoy_run(self):
         """
-        Sets up and starts servers for bok-choy run. This includes any stubbed servers.
+        Sets up and starts servers for a Bok Choy run. If --fasttest is not
+        specified then static assets are collected
         """
         sh("{}/scripts/reset-test-db.sh".format(Env.REPO_ROOT))
 
         if not self.fasttest:
-            # Process assets and set up database for bok-choy tests
-            # Reset the database
-
-            # Collect static assets
+            # Collect static assets using the custom settings file
+            # bok_choy_static which generates prod-like optimized assets.
             sh("paver update_assets --settings=bok_choy_static")
 
         # Clear any test data already in Mongo or MySQLand invalidate
