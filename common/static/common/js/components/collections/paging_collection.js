@@ -39,7 +39,7 @@
              * underlying server API.
              */
             currentOneIndexPage: function () {
-                return this.currentPage + this.isZeroIndexed ? 1 : 0;
+                return this.currentPage + (this.isZeroIndexed ? 1 : 0);
             },
 
             /**
