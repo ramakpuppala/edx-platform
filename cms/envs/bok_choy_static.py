@@ -11,7 +11,7 @@ to True in order to serve assets from the local file system.
 """
 
 import os
-from path import path
+from path import path  # pylint: disable=no-name-in-module
 
 # Pylint gets confused by path.py instances, which report themselves as class
 # objects. As a result, pylint applies the wrong regex in validating names,
