@@ -534,7 +534,7 @@ def ensure_user_information(strategy, auth_entry, backend=None, user=None, socia
 
 
 @partial.partial
-def set_logged_in_cookie(backend=None, user=None, strategy=None, auth_entry=None, *args, **kwargs):
+def set_logged_in_cookies(backend=None, user=None, strategy=None, auth_entry=None, *args, **kwargs):
     """This pipeline step sets the "logged in" cookie for authenticated users.
 
     Some installations have a marketing site front-end separate from
@@ -577,7 +577,7 @@ def set_logged_in_cookie(backend=None, user=None, strategy=None, auth_entry=None
                     pass
                 else:
                     response = redirect(redirect_url)
-                    return student.helpers.set_logged_in_cookie(request, response)
+                    return student.helpers.set_logged_in_cookies(request, response, user=user)
 
 
 @partial.partial
