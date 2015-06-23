@@ -897,19 +897,19 @@ def _set_user_requirement_status(attempt, namespace, status, reason=None):
         log.error("Unable to find checkpoint for user with id %d", attempt.user.id)
 
     if checkpoint is not None:
-        course_key = checkpoint.course_id
-        credit_requirement = get_credit_requirement(
-            course_key, namespace, checkpoint.checkpoint_location
-        )
-        if credit_requirement is not None:
-            try:
-                set_credit_requirement_status(
-                    attempt.user.username, credit_requirement, status, reason
-                )
-            except Exception:  # pylint: disable=broad-except
-                # Catch exception if unable to add credit requirement
-                # status for user
-                log.error("Unable to add Credit requirement status for user with id %d", attempt.user.id)
+        try:
+            set_credit_requirement_status(
+                attempt.user.username,
+                checkpoint.course_id,
+                namespace,
+                checkpoint.checkpoint_location,
+                status=status,
+                reason=reason,
+            )
+        except Exception:  # pylint: disable=broad-except
+            # Catch exception if unable to add credit requirement
+            # status for user
+            log.error("Unable to add Credit requirement status for user with id %d", attempt.user.id)
 
 
 @require_POST
