@@ -296,7 +296,7 @@ define(["jquery", "underscore", "gettext", "js/views/baseview", "js/models/asset
                     title.addClass('column-selected-link');
                 }
 
-                this.pagingView.collection.filterableColumns['js-asset-type-col'].displayName = assettypeLabel;
+                this.pagingView.filterableColumns['js-asset-type-col'].displayName = assettypeLabel;
                 this.pagingView.selectFilter('js-asset-type-col');
                 this.closeFilterPopup(this.$el.find(
                     '.column-filter-link[data-assetfilter="' + assettype + '"]'));
