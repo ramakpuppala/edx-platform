@@ -97,7 +97,7 @@ define(["jquery", "underscore", "gettext", "js/views/baseview", "js/models/asset
                 pagingView.registerFilterableColumn('js-asset-type-col', gettext('Type'), 'asset_type');
                 pagingView.setInitialSortColumn('js-asset-date-col');
                 pagingView.setInitialFilterColumn('js-asset-type-col');
-                this.collection.setPage(0);
+                pagingView.setPage(0);
                 return pagingView;
             },
 

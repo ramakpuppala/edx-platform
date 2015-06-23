@@ -33,6 +33,10 @@
                     // Do nothing by default
                 },
 
+                setPage: function (page) {
+                    this.collection.setPage(page);
+                },
+
                 nextPage: function () {
                     this.collection.nextPage();
                 },
