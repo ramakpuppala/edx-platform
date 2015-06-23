@@ -3,6 +3,7 @@ This file contains receivers of course publication signals.
 """
 
 from django.dispatch import receiver
+from django.utils import timezone
 from opaque_keys.edx.keys import CourseKey
 
 from xmodule.modulestore.django import SignalHandler
@@ -21,12 +22,12 @@ def listen_for_course_publish(sender, course_key, **kwargs):  # pylint: disable=
 
     update_credit_course_requirements.delay(unicode(course_key))
 
+
 @receiver(MIN_GRADE_REQUIREMENT_STATUS)
-def listen_for_grade_calculation(sender, request, grade_summary, course_key, **kwargs):  # pylint: disable=unused-argument
+def listen_for_grade_calculation(sender, request, grade_summary, course_key, deadline, **kwargs):  # pylint: disable=unused-argument
     """Receive 'MIN_GRADE_REQUIREMENT_STATUS' signal and update minimum grade
     requirement status.
     """
-
     from openedx.core.djangoapps.credit.models import CreditCourse, CreditRequirementStatus, CreditRequirement
     course_key = CourseKey.from_string(unicode(course_key))
     is_credit_course = CreditCourse.is_credit_course(course_key)
@@ -39,4 +40,8 @@ def listen_for_grade_calculation(sender, request, grade_summary, course_key, **k
                 if grade_summary['percent'] >= min_grade:
                     CreditRequirementStatus.add_or_update_requirement_status(
                         request.user.username, requirement, status="satisfied", reason=grade_summary['percent']
+                    )
+                elif deadline and deadline < timezone.now():
+                    CreditRequirementStatus.add_or_update_requirement_status(
+                        request.user.username, requirement, status="failed", reason={}
                     )
