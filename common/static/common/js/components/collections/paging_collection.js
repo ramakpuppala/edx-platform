@@ -20,6 +20,13 @@
     'use strict';
     define(['backbone.paginator'], function (BackbonePaginator) {
         var PagingCollection = BackbonePaginator.requestPager.extend({
+            initialize: function () {
+                // These must be initialized in the constructor because otherwise all PagingCollections would point
+                // to the same object references for sortableFields and filterableFields.
+                this.sortableFields = {};
+                this.filterableFields = {};
+            },
+
             paginator_core: {
                 type: 'GET',
                 dataType: 'json',

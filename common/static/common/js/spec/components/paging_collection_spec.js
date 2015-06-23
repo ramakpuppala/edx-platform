@@ -9,7 +9,7 @@ define(['jquery',
         'use strict';
 
         describe('PagingCollection', function () {
-            var collection = new PagingCollection(),
+            var collection,
                 requests,
                 server = {
                     isZeroIndexed: false,
@@ -37,8 +37,61 @@ define(['jquery',
                 };
 
             beforeEach(function () {
-                requests = AjaxHelpers.requests(this);
+                collection = new PagingCollection();
                 collection.perPage = 10;
+                requests = AjaxHelpers.requests(this);
+                server.isZeroIndexed = false;
+                server.count = 43;
+            });
+
+            it('can register sortable fields', function () {
+                collection.registerSortableField('test_field', 'Test Field');
+                expect('test_field' in collection.sortableFields).toBe(true);
+                expect(collection.sortableFields['test_field'].displayName).toBe('Test Field');
+            });
+
+            it('can register filterable fields', function () {
+                collection.registerFilterableField('test_field', 'Test Field');
+                expect('test_field' in collection.filterableFields).toBe(true);
+                expect(collection.filterableFields['test_field'].displayName).toBe('Test Field');
+            });
+
+            it('can set the sort field and get the display name', function () {
+                collection.registerSortableField('test_field', 'Test Field');
+                collection.setSortField('test_field', false);
+                expect(requests.length).toBe(1);
+                expect(collection.sortField).toBe('test_field');
+                expect(collection.sortDisplayName()).toBe('Test Field');
+            });
+
+            it('can set the filter field and get the display name', function () {
+                collection.registerFilterableField('test_field', 'Test Field');
+                collection.setFilterField('test_field');
+                expect(requests.length).toBe(1);
+                expect(collection.filterField).toBe('test_field');
+                expect(collection.filterDisplayName()).toBe('Test Field');
+            });
+
+            it('can set the sort direction', function () {
+                collection.setSortDirection(PagingCollection.SortDirection.ASCENDING);
+                expect(requests.length).toBe(1);
+                expect(collection.sortDirection).toBe(PagingCollection.SortDirection.ASCENDING);
+                collection.setSortDirection(PagingCollection.SortDirection.DESCENDING);
+                expect(requests.length).toBe(2);
+                expect(collection.sortDirection).toBe(PagingCollection.SortDirection.DESCENDING);
+            });
+
+            it('can toggle the sort direction when setting the sort field', function () {
+                collection.registerSortableField('test_field', 'Test Field');
+                collection.registerSortableField('test_field_2', 'Test Field 2');
+                collection.setSortField('test_field', true);
+                expect(collection.sortDirection).toBe(PagingCollection.SortDirection.DESCENDING);
+                collection.setSortField('test_field', true);
+                expect(collection.sortDirection).toBe(PagingCollection.SortDirection.ASCENDING);
+                collection.setSortField('test_field', true);
+                expect(collection.sortDirection).toBe(PagingCollection.SortDirection.DESCENDING);
+                collection.setSortField('test_field_2', true);
+                expect(collection.sortDirection).toBe(PagingCollection.SortDirection.DESCENDING);
             });
 
             it('queries with page, page_size, and sort_order parameters when zero indexed', function () {
