@@ -31,6 +31,8 @@ def set_logged_in_cookies(request, response, user=None):
     The user info cookie has the following format:
     {
         "version": 1,
+        "username": "test-user",
+        "email": "test-user@example.com",
         "header_urls": {
             "account_settings": "https://example.com/account/settings",
             "learner_profile": "https://example.com/u/test-user",
@@ -78,11 +80,18 @@ def set_logged_in_cookies(request, response, user=None):
     # we include information that's used to customize the "account"
     # links in the header of subdomain sites (such as the marketing site).
     if user is not None:
-        header_urls = {
-            'account_settings': reverse('account_settings'),
-            'learner_profile': reverse('learner_profile', kwargs={'username': user.username}),
-            'logout': reverse('logout'),
-        }
+        header_urls = {'logout': reverse('logout')}
+
+        # Unfortunately, this app is currently used by both the LMS and Studio login pages.
+        # If we're in Studio, we won't be able to reverse the account/profile URLs.
+        # To handle this, we don't add the URLs if we can't reverse them.
+        # External sites will need to have fallback mechanisms to handle this case
+        # (most likely just hiding the links).
+        try:
+            header_urls['account_settings'] = reverse('account_settings')
+            header_urls['learner_profile'] = reverse('learner_profile', kwargs={'username': user.username})
+        except NoReverseMatch:
+            pass
 
         # Convert relative URL paths to absolute URIs
         for url_name, url_path in header_urls.iteritems():
@@ -90,6 +99,8 @@ def set_logged_in_cookies(request, response, user=None):
 
         user_info = {
             'version': settings.EDXMKTG_USER_INFO_COOKIE_VERSION,
+            'username': user.username,
+            'email': user.email,
             'header_urls': header_urls,
         }
 
