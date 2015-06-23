@@ -1,19 +1,21 @@
 (function () {
     'use strict';
+    var commonLibrariesPath = 'common/js/common_libraries';
+
     var getModule = function (moduleName, excludeCommonDeps) {
         var module = {
             name: moduleName
         };
 
         if (excludeCommonDeps) {
-            module.exclude = ['js/factories/common_deps'];
+            module.exclude = [commonLibrariesPath];
         }
 
         return module;
     };
 
     var getModulesList = function (modules) {
-        var result = [getModule('js/factories/common_deps')];
+        var result = [getModule(commonLibrariesPath)];
         return result.concat(modules.map(function (moduleName) {
             return getModule(moduleName, true);
         }));
@@ -143,7 +145,7 @@
          * mode to minify the code. Only available if REQUIRE_ENVIRONMENT is "rhino" (the default).
          * - "none": No minification will be done.
          */
-        optimize: 'uglify2',
+        optimize: 'none',
         /**
          * Sets the logging level. It is a number:
          * TRACE: 0,
@@ -153,6 +155,6 @@
          * SILENT: 4
          * Default is 0.
          */
-        logLevel: 1
+        logLevel: 0
     };
 } ())
