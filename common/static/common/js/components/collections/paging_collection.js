@@ -72,7 +72,7 @@
             setPage: function (page) {
                 var oldPage = this.currentPage,
                     self = this;
-                this.goTo(page, {
+                this.goTo(page - (this.isZeroIndexed ? 1 : 0), {
                     reset: true,
                     success: function () {
                         self.trigger('page_changed');
