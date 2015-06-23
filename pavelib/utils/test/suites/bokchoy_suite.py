@@ -91,9 +91,11 @@ class BokChoyTestSuite(TestSuite):
         sh("{}/scripts/reset-test-db.sh".format(Env.REPO_ROOT))
 
         if not self.fasttest:
-            # Collect static assets using the custom settings file
-            # bok_choy_static which generates prod-like optimized assets.
-            sh("paver update_assets --settings=bok_choy_static")
+            # Collect static assets using test_static_optimized.py which
+            # generates optimized files to a dedicated test static root.
+            msg = colorize('green', "Generating optimized static assets...")
+            print msg
+            sh("paver update_assets --settings=test_static_optimized")
 
         # Clear any test data already in Mongo or MySQLand invalidate
         # the cache

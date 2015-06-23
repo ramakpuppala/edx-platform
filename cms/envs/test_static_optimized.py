@@ -1,13 +1,13 @@
 """
-Settings for building prod-like optimized static assets for Bok Choy tests.
+Settings used when generating static assets for use in tests.
 
-Note that Bok Choy uses two different settings files:
-1. bok_choy_static is used when invoking collectstatic
+For example, Bok Choy uses two different settings files:
+1. test_static_optimized is used when invoking collectstatic
 2. bok_choy is used when running CMS and LMS
 
-It isn't possible to have a single settings file, because DEBUG must be set
-to False in order to generate optimized static assets, but it must be set
-to True in order to serve assets from the local file system.
+Note: it isn't possible to have a single settings file, because Django doesn't
+support both generating static assets to a directory and also serving static
+from the same directory.
 """
 
 import os
@@ -32,14 +32,11 @@ from .aws import *  # pylint: disable=wildcard-import, unused-wildcard-import
 
 ######################### Testing overrides ####################################
 
-# Redirect to the test_root folder within the repo
+# Redirects to the test_root folder within the repo
 TEST_ROOT = CONFIG_ROOT.dirname().dirname() / "test_root"  # pylint: disable=no-value-for-parameter
 LOG_DIR = (TEST_ROOT / "log").abspath()
 
-# Switch off debug so that the pipeline will generate optimized files
-DEBUG = False
-
-# Store the static files under test root so that they don't overwrite existing static assets
+# Stores the static files under test root so that they don't overwrite existing static assets
 STATIC_ROOT = (TEST_ROOT / "staticfiles").abspath()
 
 # Disables uglify when tests are running (used by build.js).
