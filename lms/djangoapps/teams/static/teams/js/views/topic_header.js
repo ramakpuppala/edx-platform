@@ -28,6 +28,7 @@
                     currentlyViewing = Math.min(start + 1, end) + gettext(" through ") + end + gettext(" of ") + size;
                 }
                 this.$el.html(_.template(headerTemplate, {currentlyViewing: currentlyViewing}));
+                return this;
             }
         });
         return TopicHeader;
