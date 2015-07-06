@@ -50,7 +50,7 @@ define([
                 submit_url: '/user_api/v1/account/registration/',
                 fields: [
                     {
-                        placeholder: 'username@domain.com',
+                        placeholder: 'username@collaborative.com',
                         name: 'email',
                         label: 'Email',
                         defaultValue: '',

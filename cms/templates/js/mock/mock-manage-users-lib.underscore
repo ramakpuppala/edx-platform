@@ -34,7 +34,7 @@
                     <ol class="list-input">
                       <li class="field text required create-user-email">
                         <label for="user-email-input">User's Email Address</label>
-                        <input id="user-email-input" class="user-email-input" name="user-email" type="text" placeholder="example: username@domain.com" value="">
+                        <input id="user-email-input" class="user-email-input" name="user-email" type="text" placeholder="example: username@collaborative.com" value="">
                         <span class="tip tip-stacked">Please provide the email address of the instructor you'd like to add</span>
                       </li>
                     </ol>

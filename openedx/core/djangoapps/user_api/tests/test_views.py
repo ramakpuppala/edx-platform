@@ -623,7 +623,7 @@ class LoginSessionViewTest(ApiTestCase):
                 "type": "email",
                 "required": True,
                 "label": "Email",
-                "placeholder": "username@domain.com",
+                "placeholder": "username@collaborative.com",
                 "instructions": "The email address you used to register with {platform_name}".format(
                     platform_name=settings.PLATFORM_NAME
                 ),
@@ -785,7 +785,7 @@ class PasswordResetViewTest(ApiTestCase):
                 "type": "email",
                 "required": True,
                 "label": "Email",
-                "placeholder": "username@domain.com",
+                "placeholder": "username@collaborative.com",
                 "instructions": "The email address you used to register with {platform_name}".format(
                     platform_name=settings.PLATFORM_NAME
                 ),
@@ -848,7 +848,7 @@ class RegistrationViewTest(ApiTestCase):
                 u"type": u"email",
                 u"required": True,
                 u"label": u"Email",
-                u"placeholder": u"username@domain.com",
+                u"placeholder": u"username@collaborative.com",
                 u"restrictions": {
                     "min_length": EMAIL_MIN_LENGTH,
                     "max_length": EMAIL_MAX_LENGTH
@@ -931,7 +931,7 @@ class RegistrationViewTest(ApiTestCase):
                     u"type": u"email",
                     u"required": True,
                     u"label": u"Email",
-                    u"placeholder": u"username@domain.com",
+                    u"placeholder": u"username@collaborative.com",
                     u"restrictions": {
                         "min_length": EMAIL_MIN_LENGTH,
                         "max_length": EMAIL_MAX_LENGTH
